@@ -1,0 +1,28 @@
+{
+	"name": "amai-takahashi-bot",
+	"version": "1",
+	"description": "Amai Takahashi Community Bot",
+	"main": "index.js",
+	"engines": {
+		"node": "20.x"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint . --fix",
+		"dev": "nodemon . | pino-pretty -i pid,hostname -t \"yyyy-mm-dd HH:MM:ss\"",
+		"start": "node . | pino-pretty -i pid,hostname -t \"yyyy-mm-dd HH:MM:ss\""
+	},
+	"author": "",
+	"dependencies": {
+		"discord.js": "^14.15.2",
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2",
+		"nodemon": "^3.1.1",
+		"pino": "^9.1.0",
+		"pretty-ms": "^9.0.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.57.0"
+	},
+	"packageManager": "pnpm@9.1.2+sha512.127dc83b9ea10c32be65d22a8efb4a65fb952e8fefbdfded39bdc3c97efc32d31b48b00420df2c1187ace28c921c902f0cb5a134a4d032b8b5295cbfa2c681e2"
+}
