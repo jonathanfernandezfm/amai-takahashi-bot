@@ -22,11 +22,7 @@ module.exports = {
 			interactionWithId = interactionWithId.replace(matches[1], 'id');
 		}
 
-		if (interaction.customId && interactionWithId.includes('size-t-shirts-')) interactionWithId = 'size-t-shirts-{size}';
-		else if (interaction.customId && interactionWithId.includes('color-t-shirts-')) interactionWithId = 'color-t-shirts-{color}';
-		else if (interaction.customId && interactionWithId.includes('design-t-shirts-')) interactionWithId = 'design-t-shirts-{design}';
-		else if (interaction.customId && interactionWithId.includes('size-')) interactionWithId = 'size-{size}';
-		else if (interaction.customId && interactionWithId.includes('color-')) interactionWithId = 'color-{color}';
+		if (interaction.customId && interactionWithId.includes('poll-')) interactionWithId = 'poll-{option}';
 
 		const interactionAction =
 			interaction.client.interactions.get(interaction.customId) ||
@@ -36,24 +32,8 @@ module.exports = {
 		if (!interactionAction) return;
 
 		try {
-			if (interactionWithId === 'size-{size}') {
+			if (interactionWithId === 'poll-{option}') {
 				return await interactionAction.execute(interaction, interaction.customId.split('-')[1]);
-			}
-
-			if (interactionWithId === 'color-{color}') {
-				return await interactionAction.execute(interaction, interaction.customId.split('-')[1]);
-			}
-
-			if (interactionWithId === 'size-t-shirts-{size}') {
-				return await interactionAction.execute(interaction, interaction.customId.split('-')[3]);
-			}
-
-			if (interactionWithId === 'color-t-shirts-{color}') {
-				return await interactionAction.execute(interaction, interaction.customId.split('-')[3]);
-			}
-
-			if (interactionWithId === 'design-t-shirts-{design}') {
-				return await interactionAction.execute(interaction, interaction.customId.split('-')[3]);
 			}
 
 			await interactionAction.execute(interaction, interaction.customId);
