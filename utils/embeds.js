@@ -7,13 +7,14 @@ const getErrorEmbed = (message) => {
 };
 
 const messageEmbed = (title, description, color) => {
-  const embed = new EmbedBuilder().setTitle(`${title}`).setColor(color ?? '#00ccff');
-  if (description) embed.setDescription(description);
+	const embed = new EmbedBuilder().setColor(color ?? '#00ccff');
+	if (title) embed.setTitle(title);
+	if (description) embed.setDescription(description);
 
-  return embed;
+	return embed;
 };
 
 module.exports = {
 	getErrorEmbed,
-  messageEmbed
+	messageEmbed,
 };

@@ -47,7 +47,7 @@ module.exports = {
       return new ButtonBuilder().setCustomId(`poll-${option}`).setLabel(option).setStyle(ButtonStyle.Primary);
     });
 
-    if (options.length < 5) buttons.push(new ButtonBuilder().setCustomId('poll-result').setLabel('Poll result').setStyle(ButtonStyle.Success));
+    // if (options.length < 5) buttons.push(new ButtonBuilder().setCustomId('poll-result').setLabel('Poll result').setStyle(ButtonStyle.Success));
     const row = new ActionRowBuilder().addComponents(buttons);
 
     const response = await interaction.editReply({ embeds: [embed], components: [row] });

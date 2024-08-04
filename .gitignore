@@ -3,3 +3,4 @@ node_modules/
 *old__*
 .vscode/settings.json
 database/data.db
+config/discord-bot-304712-8bb8255002c8.json
