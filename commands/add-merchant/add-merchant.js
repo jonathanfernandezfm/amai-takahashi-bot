@@ -17,10 +17,6 @@ module.exports = {
 	 */
 	async execute(interaction) {
 
-    if (!interaction.member.roles.cache.has(MERCHANT_ROLE)) {
-      return await interaction.reply({ embeds: [messageEmbed('You are are not subscribed as merchant.', null, '#ff5555')], ephemeral: true });
-    }
-
     const existingMerchant = await prisma.merchants.findUnique({
       where: {
         userId: interaction.user.id,
