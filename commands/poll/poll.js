@@ -29,6 +29,11 @@ module.exports = {
 			return interaction.reply({ content: 'You must provide at least 2 options', ephemeral: true });
 		}
 
+		if (optionsArray.length > 10) {
+			await interaction.deleteReply();
+			return interaction.reply({ content: 'You can only provide up to 10 options', ephemeral: true });
+		}
+
 		const embed = new EmbedBuilder().setDescription(description).setColor('#2a2c31').setAuthor({
 			name: title,
 		});
