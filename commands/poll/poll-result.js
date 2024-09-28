@@ -33,10 +33,7 @@ module.exports = {
 			.map((key) => `${key} : ${result[key]}`)
 			.join('\n');
 
-		const embedResult = new EmbedBuilder().setTitle('Result of the poll').setDescription(resultString).setColor('#00ccff').setAuthor({
-			name: 'Polls',
-			iconURL: interaction.user.displayAvatarURL(),
-		});
+		const embedResult = new EmbedBuilder().setAuthor({ name: '📊 Result of the poll' }).setTitle(pollEntry.title).setDescription(resultString).setColor('#2a2c31');
 
 		await interaction.editReply({ embeds: [embedResult], ephemeral: true });
 	},

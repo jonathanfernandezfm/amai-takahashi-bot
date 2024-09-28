@@ -6,14 +6,10 @@ module.exports = {
 		.setName('poll')
 		.setDescription('Creates a poll.')
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .addStringOption(option => option.setName('title').setDescription('The title of the poll.').setRequired(true))
-    .addStringOption(option => option.setName('description').setDescription('The description of the poll.').setRequired(true))
-    .addStringOption(option => option.setName('image-url').setDescription('The image of the poll.').setRequired(true))
-    .addStringOption(option => option.setName('option1').setDescription('The first option for the poll.').setRequired(true))
-    .addStringOption(option => option.setName('option2').setDescription('The second option for the poll.').setRequired(true))
-    .addStringOption(option => option.setName('option3').setDescription('The third option for the poll.').setRequired(false))
-    .addStringOption(option => option.setName('option4').setDescription('The fourth option for the poll.').setRequired(false))
-    .addStringOption(option => option.setName('option5').setDescription('The fifth option for the poll.').setRequired(false)),
+		.addStringOption((option) => option.setName('title').setDescription('The title of the poll.').setRequired(true))
+		.addStringOption((option) => option.setName('description').setDescription('The description of the poll.').setRequired(true))
+		.addStringOption((option) => option.setName('options').setDescription('The options for the poll separated by commas. Ex: Ashe,Ekko,Ahri').setRequired(true))
+		.addStringOption((option) => option.setName('image').setDescription('The image url of the poll.')),
 
 	/**
 	 *
@@ -21,49 +17,59 @@ module.exports = {
 	 * @returns
 	 */
 	async execute(interaction) {
-    await interaction.deferReply();
-    const title = interaction.options.getString('title');
-    const description = interaction.options.getString('description');
-    const imageUrl = interaction.options.getString('image-url');
-    const option1 = interaction.options.getString('option1');
-    const option2 = interaction.options.getString('option2');
-    const option3 = interaction.options.getString('option3');
-    const option4 = interaction.options.getString('option4');
-    const option5 = interaction.options.getString('option5');
+		await interaction.deferReply();
+		const title = interaction.options.getString('title');
+		const description = interaction.options.getString('description');
+		const image = interaction.options.getString('image');
+		const options = interaction.options.getString('options');
 
-    const options = [option1, option2, option3, option4, option5].filter(option => option !== null);
+		const optionsArray = options.split(',').map((option) => option.trim());
+		if (optionsArray.length < 2) {
+			await interaction.deleteReply();
+			return interaction.reply({ content: 'You must provide at least 2 options', ephemeral: true });
+		}
 
-    const embed = new EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setColor('#00ccff')
-      .setImage(imageUrl)
-      .setAuthor({
-        name: 'Polls',
-        iconURL: interaction.user.displayAvatarURL()
-      });
+		const embed = new EmbedBuilder().setDescription(description).setColor('#2a2c31').setAuthor({
+			name: title,
+		});
 
-    const buttons = options.map((option) => {
-      return new ButtonBuilder().setCustomId(`poll-${option}`).setLabel(option).setStyle(ButtonStyle.Primary);
-    });
+		if (image) {
+			embed.setImage(image);
+		}
 
-    // if (options.length < 5) buttons.push(new ButtonBuilder().setCustomId('poll-result').setLabel('Poll result').setStyle(ButtonStyle.Success));
-    const row = new ActionRowBuilder().addComponents(buttons);
+		const buttonsRow1 = optionsArray.slice(0, 5).map((option) => {
+			return new ButtonBuilder().setCustomId(`poll-${option}`).setLabel(option).setStyle(ButtonStyle.Secondary);
+		});
 
-    const response = await interaction.editReply({ embeds: [embed], components: [row] });
+		const buttonsRow2 = optionsArray.slice(5, 10).map((option) => {
+			return new ButtonBuilder().setCustomId(`poll-${option}`).setLabel(option).setStyle(ButtonStyle.Secondary);
+		});
 
-    const emptyResult = options.reduce((acc, option, index) => {
-      acc[`${options[index]}`] = 0;
-      return acc;
-    }, {});
-    await prisma.poll.create({
-      data: {
-        title,
-        description,
-        result: JSON.stringify(emptyResult),
-        messageId: response.id,
-        voters: JSON.stringify([]),
-      }
-    });
+		const rows = [];
+
+		if (buttonsRow1.length > 0) {
+			rows.push(new ActionRowBuilder().addComponents(buttonsRow1));
+		}
+
+		if (buttonsRow2.length > 0) {
+			rows.push(new ActionRowBuilder().addComponents(buttonsRow2));
+		}
+
+		const response = await interaction.editReply({ content: '||@everyone||', embeds: [embed], components: rows });
+
+		const emptyResult = optionsArray.reduce((acc, option, index) => {
+			acc[option] = 0;
+			return acc;
+		}, {});
+
+		await prisma.poll.create({
+			data: {
+				title,
+				description,
+				result: JSON.stringify(emptyResult),
+				messageId: response.id,
+				voters: JSON.stringify([]),
+			},
+		});
 	},
 };
