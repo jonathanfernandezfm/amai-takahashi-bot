@@ -3,7 +3,7 @@ const logger = require('./utils/logger');
 /**
  * @param {Client} client
  */
-module.exports = () => {
+module.exports = (client) => {
 	const express = require('express');
 	const app = express();
 	app.use(express.json());
@@ -13,9 +13,11 @@ module.exports = () => {
 		res.send('Alive!');
 	});
 
-	app.post('/webhook', (req, res) => {
-		logger.info('Webhook received', JSON.stringify(req.body));
+	app.post('/webhook', async (req, res) => {
 		res.send('Received');
+		const channel = await client.channels.fetch('1297877884140261480');
+		channel.send(JSON.stringify(req.body));
+		res.sendStatus(200);
 	});
 
 	app.listen(port, () => {
