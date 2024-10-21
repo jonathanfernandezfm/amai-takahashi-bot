@@ -16,8 +16,8 @@ module.exports = (client) => {
 	app.post('/webhook', async (req, res) => {
 		const channel = await client.channels.fetch('1297877884140261480');
 		console.log(JSON.stringify(req.body));
-		channel.send(JSON.stringify(req.body).slice(0, 3500));
-		channel.send(JSON.stringify(req.body).slice(3500));
+		channel.send(JSON.stringify(req.body).slice(0, 1900));
+		channel.send(JSON.stringify(req.body).slice(1900));
 		res.sendStatus(200);
 	});
 
