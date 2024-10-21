@@ -15,6 +15,7 @@ module.exports = () => {
 
 	app.post('/webhook', (req, res) => {
 		logger.info('Webhook received', JSON.stringify(req.body));
+		res.send('Received');
 	});
 
 	app.listen(port, () => {
