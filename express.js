@@ -1,3 +1,5 @@
+const logger = require('./utils/logger');
+
 /**
  * @param {Client} client
  */
@@ -9,6 +11,10 @@ module.exports = () => {
 
 	app.get('/', (req, res) => {
 		res.send('Alive!');
+	});
+
+	app.post('/webhook', (req, res) => {
+		logger.info('Webhook received', JSON.stringify(req.body));
 	});
 
 	app.listen(port, () => {
