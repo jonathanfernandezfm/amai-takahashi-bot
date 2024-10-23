@@ -15,13 +15,10 @@ module.exports = (client) => {
 
 	app.post('/webhook', async (req, res) => {
 		const channel = await client.channels.fetch('1297877884140261480');
-		console.log(JSON.stringify(req.body));
 
-		let tempData = JSON.stringify(req.body);
-		while (JSON.stringify(tempData).length > 2000) {
-			channel.send(JSON.stringify(tempData).slice(0, 1900));
-			tempData = tempData.slice(1900);
-		}
+		const attributes = req.body.data.attributes;
+		if (attributes.patron_status !== 'active_patron') return res.sendStatus(200);
+		channel.send(`**NEW SUB!**\n\nName: ${attributes.full_name}\nEmail: ${attributes.email}\nPrice: ${attributes.will_pay_amount_cents / 100}`);
 		res.sendStatus(200);
 	});
 
