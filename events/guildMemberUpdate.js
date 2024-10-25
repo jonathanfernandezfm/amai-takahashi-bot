@@ -12,26 +12,25 @@ module.exports = {
 	 * @returns
 	 */
 	async execute(oldMember, newMember) {
-		const oldRoles = oldMember.roles.cache;
-		const newRoles = newMember.roles.cache;
-		try {
-			TIER_ROLES.forEach((role) => {
-				const oldHas = oldRoles.has(role.id);
-				const newHas = newRoles.has(role.id);
-
-				console.log({ id: role.id, oldHas, newHas });
-				if (oldHas && !newHas) {
-					if (newMember.displayName.startsWith(`[${role.icon}] `)) {
-						newMember.setNickname(`${newMember.displayName.split('] ')[1]}`);
-					}
-				} else if (!oldHas && newHas) {
-					if (!newMember.displayName.startsWith(`[${role.icon}] `)) {
-						newMember.setNickname(`[${role.icon}] ${newMember.displayName}`);
-					}
-				}
-			});
-		} catch (error) {
-			logger.error('Cant set nickname', error);
-		}
+		// const oldRoles = oldMember.roles.cache;
+		// const newRoles = newMember.roles.cache;
+		// try {
+		// 	TIER_ROLES.forEach((role) => {
+		// 		const oldHas = oldRoles.has(role.id);
+		// 		const newHas = newRoles.has(role.id);
+		// 		console.log({ id: role.id, oldHas, newHas });
+		// 		if (oldHas && !newHas) {
+		// 			if (newMember.displayName.startsWith(`[${role.icon}] `)) {
+		// 				newMember.setNickname(`${newMember.displayName.split('] ')[1]}`);
+		// 			}
+		// 		} else if (!oldHas && newHas) {
+		// 			if (!newMember.displayName.startsWith(`[${role.icon}] `)) {
+		// 				newMember.setNickname(`[${role.icon}] ${newMember.displayName}`);
+		// 			}
+		// 		}
+		// 	});
+		// } catch (error) {
+		// 	logger.error('Cant set nickname', error);
+		// }
 	},
 };
