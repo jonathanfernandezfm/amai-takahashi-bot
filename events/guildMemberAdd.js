@@ -39,11 +39,11 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setThumbnail(member.user.displayAvatarURL())
 			.setDescription(
-				`🩵 Welcome to Amai Takahashi's Community, ${member.user} (${member.username})!\nRemember to follow the rules!\n\nPlease wait to be verified and assigned a role, an admin will do it shortly\n`
+				`🩵 Welcome to Amai Takahashi's Community, ${member.user} (${member.user.username})!\n\n***Please wait to be verified and assigned a role, an admin will do it shortly***\n`
 			)
 			.setColor(0x3498eb)
 			.setTimestamp();
 
-		await channel.send({ embeds: [embed] });
+		await channel.send({ content: `${member.user}`,  embeds: [embed] });
 	},
 };
