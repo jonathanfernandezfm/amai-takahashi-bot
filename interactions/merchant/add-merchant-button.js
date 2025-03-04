@@ -1,14 +1,12 @@
 const { SlashCommandBuilder, CommandInteraction, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const { doc } = require('../../lib/docs.js');
 const { prisma } = require('../../database/db.js');
-const { MERCHANT_ROLE } = require('../../utils/config.js');
+const { MERCHANT_ROLE, MERCHANT_FORUM } = require('../../utils/config.js');
 const { messageEmbed } = require('../../utils/embeds.js');
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('add')
-		.setDescription('Adds yourself as a merchant.')
-		.addSubcommand((subcommand) => subcommand.setName('merchant').setDescription('Add yourself as a merchant.')),
+	name: 'add-merchant-button',
+	description: 'Adds a merchant',
 
 	/**
 	 *
@@ -16,16 +14,19 @@ module.exports = {
 	 * @returns
 	 */
 	async execute(interaction) {
+		const existingMerchant = await prisma.merchants.findUnique({
+			where: {
+				userId: interaction.user.id,
+			},
+		});
 
-    const existingMerchant = await prisma.merchants.findUnique({
-      where: {
-        userId: interaction.user.id,
-      }
-    });
+		if (existingMerchant) {
+			return await interaction.reply({ embeds: [messageEmbed('You are already a merchant.', null, '#ff5555')], ephemeral: true });
+		}
 
-    if (existingMerchant) {
-      return await interaction.reply({ embeds: [messageEmbed('You are already a merchant.', null, '#ff5555')], ephemeral: true });
-    }
+		if (!interaction.member.roles.cache.has(MERCHANT_ROLE)) {
+			return await interaction.reply({ embeds: [messageEmbed('You need to be a merchant to use this command.', null, '#ff5555')], ephemeral: true });
+		}
 
 		const modal = new ModalBuilder().setCustomId('add-merchant').setTitle('Add merchant');
 
@@ -39,7 +40,12 @@ module.exports = {
 
 		const storeLinkInput = new TextInputBuilder().setCustomId('store-link').setLabel('Store link').setPlaceholder('Introduce your store link').setStyle(TextInputStyle.Short).setRequired(true);
 
-		const countryInput = new TextInputBuilder().setCustomId('country').setLabel('Country').setPlaceholder('Introduce where you are located').setStyle(TextInputStyle.Short).setRequired(true);
+		const countryInput = new TextInputBuilder()
+			.setCustomId('country')
+			.setLabel('Country')
+			.setPlaceholder('Introduce where you are located and can ship. ex England, Worldwide')
+			.setStyle(TextInputStyle.Short)
+			.setRequired(true);
 
 		const contactEmailInput = new TextInputBuilder()
 			.setCustomId('contact')
@@ -83,20 +89,35 @@ module.exports = {
 				await doc.loadInfo();
 				console.log(doc.title);
 				const sheet = doc.sheetsByIndex[0];
-				await sheet.loadHeaderRow(8);
-				await sheet.addRow([storeName, storeLink, country, contactEmail, service]);
+				const row = await sheet.loadHeaderRow(7);
+				console.log(row);
+				await sheet.addRow(['-', storeName, storeLink, country, contactEmail, service]);
 
-        await prisma.merchants.create({
-          data: {
-            userId: interaction.user.id,
-          }
-        });
+				await prisma.merchants.create({
+					data: {
+						userId: interaction.user.id,
+					},
+				});
+
+				const forumChannel = interaction.guild.channels.cache.get(MERCHANT_FORUM);
+				await forumChannel.threads.create({
+					name: storeName,
+					message: {
+						content: `
+🔹 Store Link: ${storeLink}
+🔹 Shipping to: ${country}
+🔹 Store contact: ${contactEmail} 
+🔹 Services: ${service}
+            `,
+					},
+					appliedTags: [],
+				});
 
 				return await modalInteraction.editReply({ embeds: [messageEmbed('✅ Merchant added!', null, '#3b9c52')], ephemeral: true });
 			})
 			.catch((error) => {
-        console.error(error);
-        return interaction.reply({ embeds: [messageEmbed('Something went wrong. Contact the staff', null, '#ff5555')], ephemeral: true });
-      });
+				console.error(error);
+				return interaction.reply({ embeds: [messageEmbed('Something went wrong. Contact the staff', null, '#ff5555')], ephemeral: true });
+			});
 	},
 };
