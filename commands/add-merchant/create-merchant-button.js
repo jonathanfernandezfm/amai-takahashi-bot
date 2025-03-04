@@ -11,21 +11,24 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const buttonsRow = [new ButtonBuilder().setCustomId(`add-merchant-button`).setLabel('Add yourself as merchant').setStyle(ButtonStyle.Primary)];
+		const buttonsRow = [
+			new ButtonBuilder().setCustomId(`add-merchant-button`).setLabel('Add Store').setStyle(ButtonStyle.Primary),
+			new ButtonBuilder().setLabel('Merchants').setStyle(ButtonStyle.Link).setURL('https://docs.google.com/spreadsheets/d/1LzeMXz3HKIoz_Qkw0uz1pAJeL7LDbnMDjCOyNHVDM0s'),
+		];
 
 		const forumChannel = interaction.guild.channels.cache.get(MERCHANT_FORUM);
 		await forumChannel.threads.create({
 			name: '🌟 Do you want to be added as an official Merchant?',
 			message: {
 				content: `
-# Click the button below to add yourself as a merchant.
+# Click the button below to add your store.
 
 ### Requirements:
-- You need to be subscribed as merchant.
-- You can only add yourself as merchant once.
-- You need to have the merchant role.
+- You need to have an active subscription to Eye of Bastet tier.
+- You can only add your store once.
+- You need to have the Eye of Bastet role in Discord.
 
-If you dont meet the requirements, you can still check the merchants list by clicking the button below.
+If you dont meet the requirements, you can still check the merchants sheet.
 --------------------------
       `,
 				components: [new ActionRowBuilder().addComponents(buttonsRow)],
