@@ -25,9 +25,7 @@ module.exports = {
 		if (interaction.customId && interactionWithId.includes('poll-')) interactionWithId = 'poll-{option}';
 
 		const interactionAction =
-			interaction.client.interactions.get(interaction.customId) ||
-			interaction.client.slash.get(interaction.commandName) ||
-			interaction.client.interactions.get(interactionWithId);
+			interaction.client.interactions.get(interaction.customId) || interaction.client.slash.get(interaction.commandName) || interaction.client.interactions.get(interactionWithId);
 
 		if (!interactionAction) return;
 
@@ -38,7 +36,7 @@ module.exports = {
 
 			await interactionAction.execute(interaction, interaction.customId);
 		} catch (err) {
-			interaction.editReply('there was an error executing this command. 😫');
+			// interaction.editReply('there was an error executing this command. 😫');
 			logger.error(err);
 		}
 	},
