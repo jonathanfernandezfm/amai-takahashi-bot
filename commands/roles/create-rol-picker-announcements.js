@@ -17,22 +17,20 @@ module.exports = {
 		const channel = interaction.options.getChannel('channel');
 
 		const row = new ActionRowBuilder().addComponents([
-			new ButtonBuilder().setCustomId('announcements').setLabel('Announcements').setStyle(ButtonStyle.Primary).setEmoji('📢'),
 			new ButtonBuilder().setCustomId('wip-announcements').setLabel('WIP Announcements').setStyle(ButtonStyle.Secondary).setEmoji('🔨'),
-		]);
-
-		const row2 = new ActionRowBuilder().addComponents([
-			new ButtonBuilder().setCustomId('polls-announcements').setLabel('Polls Announcements').setStyle(ButtonStyle.Success).setEmoji('📊'),
-			new ButtonBuilder().setCustomId('other-announcements').setLabel('Other Announcements').setStyle(ButtonStyle.Danger).setEmoji('☎️'),
+			new ButtonBuilder().setCustomId('polls-announcements').setLabel('Polls Announcements').setStyle(ButtonStyle.Secondary).setEmoji('📊'),
+			new ButtonBuilder().setCustomId('other-announcements').setLabel('Other Announcements').setStyle(ButtonStyle.Secondary).setEmoji('☎️'),
 		]);
 
 		await channel.send({
 			content: `
-# 📢 Announcements Roles 📢
+# 📢 Announcements Roles
 
-Click on the buttons below to get the roles you want to be notified about.
+Do you want to receive extra announcements? To avoid spamming we have separated the announcements in different roles and you can choose yourself.
+
+Click on the buttons below to get the roles you want to be notified about.\n
       `,
-			components: [row, row2],
+			components: [row],
 		});
 
 		return await interaction.editReply({

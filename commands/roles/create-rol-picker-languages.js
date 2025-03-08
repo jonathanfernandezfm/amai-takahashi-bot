@@ -17,18 +17,19 @@ module.exports = {
 		const channel = interaction.options.getChannel('channel');
 
 		const row = new ActionRowBuilder().addComponents([
-			new ButtonBuilder().setCustomId('english').setLabel('English').setStyle(ButtonStyle.Primary).setEmoji('1️⃣'),
+			new ButtonBuilder().setCustomId('english').setLabel('English').setStyle(ButtonStyle.Secondary).setEmoji('1️⃣'),
 			new ButtonBuilder().setCustomId('spanish').setLabel('Spanish').setStyle(ButtonStyle.Secondary).setEmoji('2️⃣'),
-			new ButtonBuilder().setCustomId('russian').setLabel('Russian').setStyle(ButtonStyle.Success).setEmoji('3️⃣'),
-			new ButtonBuilder().setCustomId('portuguese').setLabel('Portuguese').setStyle(ButtonStyle.Danger).setEmoji('4️⃣'),
+			new ButtonBuilder().setCustomId('russian').setLabel('Russian').setStyle(ButtonStyle.Secondary).setEmoji('3️⃣'),
+			new ButtonBuilder().setCustomId('portuguese').setLabel('Portuguese').setStyle(ButtonStyle.Secondary).setEmoji('4️⃣'),
 		]);
 
 		await channel.send({
 			content: `
-# 🏳️ Language Roles 🏳️
+# 🏳️ Language Roles
 
 Click on the buttons below to get the roles about the languages you speak.
-You will unlock the channels for the languages you select.
+
+You will unlock the channels for the languages you select.\n
       `,
 			components: [row],
 		});

@@ -25,9 +25,11 @@ module.exports = {
 
 		await channel.send({
 			content: `
-# ⚒️ Services Roles ⚒️
+# ⚒️ What do you do? ⚒️
 
-Click on the buttons below to get the roles about the services you provide.
+Do you print the figures? Do you paint them? Are you a sculptor yourself?
+
+Choose the role that best describes you and let the community know!\n
       `,
 			components: [row],
 		});
