@@ -17,7 +17,7 @@ module.exports = {
 		const channel = interaction.options.getChannel('channel');
 
 		const row = new ActionRowBuilder().addComponents([
-			new ButtonBuilder().setCustomId('wip-announcements').setLabel('WIP Announcements').setStyle(ButtonStyle.Secondary).setEmoji('🔨'),
+			new ButtonBuilder().setCustomId('wip-announcements').setLabel('Work In Progress Announcements').setStyle(ButtonStyle.Secondary).setEmoji('🔨'),
 			new ButtonBuilder().setCustomId('polls-announcements').setLabel('Polls Announcements').setStyle(ButtonStyle.Secondary).setEmoji('📊'),
 			new ButtonBuilder().setCustomId('other-announcements').setLabel('Other Announcements').setStyle(ButtonStyle.Secondary).setEmoji('☎️'),
 		]);
