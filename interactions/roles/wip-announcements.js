@@ -1,4 +1,4 @@
-const { ANNOUNCEMENTS_ROLE } = require('../../utils/config');
+const { WIP_ANNOUNCEMENTS_ROLE } = require('../../utils/config');
 
 module.exports = {
 	name: 'wip-announcements',
@@ -10,7 +10,7 @@ module.exports = {
 	 * @returns
 	 */
 	execute: async (interaction) => {
-		await interaction.member.roles.add(ANNOUNCEMENTS_ROLE);
+		await interaction.member.roles.add(WIP_ANNOUNCEMENTS_ROLE);
 		return await interaction.deferUpdate();
 	},
 };
