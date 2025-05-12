@@ -2,6 +2,8 @@ const { Events, EmbedBuilder, CommandInteraction } = require('discord.js');
 const { ROLE_FREE_MEMBER, WELCOME_CHANNEL, TIER_ROLES } = require('../utils/config');
 const logger = require('../utils/logger');
 
+const miscRoles = ['1368269510288871534', '1368269603557343312', '1368269442663972874', '1368270936133992610', '1368268212176945162'];
+
 module.exports = {
 	name: Events.GuildMemberAdd,
 
@@ -29,6 +31,14 @@ module.exports = {
 			}
 			await member.roles.add(role);
 		}
+
+		miscRoles.forEach(async (role) => {
+			let miscRole = await member.guild.roles.cache.get(role);
+			if (miscRole === undefined) {
+				miscRole = await member.guild.roles.fetch(role);
+			}
+			await member.roles.add(miscRole);
+		});
 
 		const channel = await member.guild.channels.fetch(WELCOME_CHANNEL);
 		if (!channel) return;
