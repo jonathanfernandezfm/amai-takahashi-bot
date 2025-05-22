@@ -24,7 +24,8 @@ module.exports = {
       "lifetime_support_cents": 10000,
       "note": "",
       "patron_status": "active_patron",
-      "pledge_relationship_start": null
+      "pledge_relationship_start": null,
+      "email": "yes@gmail.com"
     }
 
     console.log('ADDING THESE ', [
