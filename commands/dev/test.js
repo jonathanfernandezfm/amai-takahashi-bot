@@ -13,7 +13,7 @@ module.exports = {
 	 */
 	async execute(interaction) {
 		await interaction.deferReply();
-		const channel = await client.channels.fetch('1297877884140261480');
+		const channel = await interaction.client.channels.fetch('1297877884140261480');
 
         const attributes = {
       "will_pay_amount_cents": 12314,
