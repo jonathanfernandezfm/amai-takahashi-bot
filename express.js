@@ -19,7 +19,7 @@ module.exports = (client) => {
 
 		const attributes = req.body.data.attributes;
 		if (attributes.patron_status !== 'active_patron') return res.sendStatus(200);
-
+		console.log(attributes)
 		const embed = new EmbedBuilder()
 		  .setColor("#2a2c31") // You can change the color
 		  .setTitle('🎉 New Subscriber! 🎉')
