@@ -21,7 +21,7 @@ module.exports = (client) => {
 		if (attributes.patron_status !== 'active_patron') return res.sendStatus(200);
 
 		const embed = new EmbedBuilder()
-		  .setColor(0x0099FF) // You can change the color
+		  .setColor("#2a2c31") // You can change the color
 		  .setTitle('🎉 New Subscriber! 🎉')
 		  .setDescription(`A new supporter has joined!`)
 		  .addFields(
