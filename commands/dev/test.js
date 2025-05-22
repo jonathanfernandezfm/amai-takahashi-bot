@@ -27,6 +27,18 @@ module.exports = {
       "pledge_relationship_start": null
     }
 
+    console.log('ADDING THESE ', [
+      { name: 'Name', value: attributes.full_name, inline: true },
+                    { name: 'Email', value: attributes.email, inline: true },
+                    { name: 'Price', value: `${attributes.will_pay_amount_cents / 100}`, inline: true }, // Format price to 2 decimal places
+                    { name: 'Follower', value: attributes.is_follower ? 'Yes' : 'No', inline: true },
+                    { name: 'Lifetime Support', value: `${(attributes.lifetime_support_cents / 100).toFixed(2)}`, inline: true }, // Convert cents to dollars
+                    // You can add more fields based on the available data and what you want to display
+                    // For example, if last_charge_date and last_charge_status were available:
+                    { name: 'Last Charge Date', value: attributes.last_charge_date || 'N/A', inline: true },
+                    { name: 'Last Charge Status', value: attributes.last_charge_status || 'N/A', inline: true }
+    ])
+
         const embed = new EmbedBuilder()
                   .setColor("#2a2c31") // You can change the color
                   .setTitle('🎉 New Subscriber! 🎉')
