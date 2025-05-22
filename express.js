@@ -30,7 +30,9 @@ module.exports = (client) => {
 		    { name: 'Price', value: `${attributes.will_pay_amount_cents / 100}` }, // Format price to 2 decimal places
 		    { name: 'Follower', value: attributes.is_follower ? 'Yes' : 'No', inline: true },
 		    { name: 'Lifetime Support', value: `${(attributes.lifetime_support_cents / 100).toFixed(2)}`, inline: true }, // Convert cents to dollars
-		    { name: 'Last Charge Date', value: attributes.last_charge_date || 'N/A' },
+		  )
+		  .addFields(
+			{ name: 'Last Charge Date', value: attributes.last_charge_date || 'N/A', inline: true },
 		    { name: 'Last Charge Status', value: attributes.last_charge_status || 'N/A', inline: true },
 		  )
 		  .setTimestamp()
