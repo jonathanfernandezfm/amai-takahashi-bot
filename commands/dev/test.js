@@ -2,7 +2,7 @@ const { SlashCommandBuilder, CommandInteraction, PermissionFlagsBits } = require
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ping')
+		.setName('test')
 		.setDescription('Ping the bot.')
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
